@@ -9,7 +9,10 @@ var todo = {
 		taskContent = document.createTextNode(task);
 		li.appendChild(taskContent);
 		li.setAttribute("id", id);
-		ul.appendChild(li);		
+		ul.insertBefore(li, ul.firstChild);
+		li.addEventListener("click",function(){
+			todo.doneTask(id);
+		},false);
 	},
 	listTasks: function(amount, done, taskID) { // List tasks
 		if (amount === "all") {
@@ -43,26 +46,29 @@ var todo = {
 	addTask: function(newTask) { // Adds new task to tasks array
 		var newId = 0;
 		for (var i = 0; i < todo.tasks.length; i ++) {
-			if (newId > todo.tasks[i].id) {
+			if (newId < todo.tasks[i].id) {
 				newId = todo.tasks[i].id;
 			} else if (!todo.tasks[i].id) {
 				newId = 0;
 			}
 		}
-		newId += 1;
-		todo.tasks.push({ task: newTask, done: false, id: newId });
-		todo.listTasks("one", false, newId);
+		newId = newId + 1;
+		todo.tasks.push({ task: newTask, done: false, id: newId }); // Add new task to array
+		todo.listTasks("one", false, newId); // Print on screen
 	},
-	doneTask: function(task) { // Finds and marks task done (done = true)
+	doneTask: function(taskID) { // Finds and marks task done (done = true)
 		for (var i = 0; i < todo.tasks.length; i++) {
-			if (todo.tasks[i].task === task) {
+			if (todo.tasks[i].id === taskID) {
 				todo.tasks[i].done = true;
+				var task = document.getElementById(todo.tasks[i].id);
+				task.parentNode.removeChild(task);
+				todo.listTasks("one", true, todo.tasks[i].id);
 			}
 		}
 	},
-	deleteTask: function(task) { // Finds and deletes task
+	deleteTask: function(taskID) { // Finds and deletes task
 		for (var i = 0; i < todo.tasks.length; i++) {
-			if (todo.tasks[i].task === task) {
+			if (todo.tasks[i].id === taskID) {
 				todo.tasks.splice(i, 1);
 			}
 		}
@@ -75,7 +81,6 @@ var todo = {
 var submitTask = document.getElementById("submit-task");
 submitTask.addEventListener("click", function(){
 	todo.addTask(document.getElementById("task-input").value);
-	todo.listTasks("latest");
 }, false);
 
 
