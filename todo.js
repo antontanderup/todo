@@ -13,37 +13,46 @@ var todo = {
 	},
 	listTask: function(id, task, ULid) {
 
-		// Create li task element and add task text.
+		// Create li element and get UL
 		var ul = document.getElementById(ULid), 
-		li = document.createElement("li"), 
-		taskContent = document.createTextNode(task);
-		li.appendChild(taskContent);
+		li = document.createElement("li");
 		li.setAttribute("id", id);
 
-		// Create span element and buttons to go inside.
-		var span = document.createElement("span"),
+		// Create span element for task text
+		var taskSpan = document.createElement("span"),
+		taskContent = document.createTextNode(task);
+		taskSpan.appendChild(taskContent);
+		taskSpan.setAttribute("class", "task-span");
+		
+
+		// Create span element for buttons to go inside.
+		var buttonSpan = document.createElement("span"),
 		deleteButton = document.createElement("button"),
 		doneButton = document.createElement("button"),
 		doneButtonContent = "";
+		buttonSpan.setAttribute("class", "button-span");
 		deleteButton.appendChild(document.createTextNode("X"));
 		deleteButton.setAttribute("title", "Delete task.");
+		deleteButton.setAttribute("class", "delete-button");
 
 		 // if task is not done
 		if (ULid === "todo-list") {
 			doneButtonContent = document.createTextNode("\u2713"); // Check mark.
 			doneButton.appendChild(doneButtonContent);
 			doneButton.setAttribute("title", "Complete task.");
+			doneButton.setAttribute("class", "do-button");
 		} else if (ULid === "history-list") { // Task is done
 			doneButtonContent = document.createTextNode("\u00F7"); // Check mark.
 			doneButton.appendChild(doneButtonContent);
 			doneButton.setAttribute("title", "Task not yet completed.");
+			doneButton.setAttribute("class", "undo-button");
 		}
 
 		// Add buttons to span element
-		span.appendChild(deleteButton); span.appendChild(doneButton);
+		buttonSpan.appendChild(deleteButton); buttonSpan.appendChild(doneButton);
 	
 		// Add span element to list
-		li.appendChild(span);
+		li.appendChild(taskSpan); li.appendChild(buttonSpan);
 
 		// Insert LI element in UL
 		ul.insertBefore(li, ul.firstChild);

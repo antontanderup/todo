@@ -8,7 +8,7 @@
 
 </head>
 <body>
-	<header><h1>Tasks</h1></header>
+	<header><h1>To do</h1></header>
 	<form id="submit-form">
 		<input type="text" id="task-input" name="task-input" placeholder="Add a new task" />
 	</form>	
@@ -16,6 +16,11 @@
 	</ul>
 	<ul id="history-list">
 	</ul>
+
+	<footer>
+		<p>To do desktop web app by <a href="http://antontanderup.dk/">Anton Tanderup</a></p>
+		<p>This app uses javascript and HTML local storage to store your tasks between visits.</p>
+	</footer>
 	<script src="todo.js"></script>
 	<script>todo.taskLocalStorage("reinitialize");</script>
 </body>
